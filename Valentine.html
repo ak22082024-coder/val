@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jarvis Valentine Protocol</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+<style>
+body{
+    margin:0;
+    background:white;
+    color:rgb(255, 42, 74);
+    font-family:'Orbitron',sans-serif;
+    text-align:center;
+    overflow-x:hidden;
+}
+
+.section{
+    display:none;
+    padding:60px 20px;
+}
+
+.active{
+    display:block;
+}
+
+button{
+    padding:12px 25px;
+    border-radius:30px;
+    border:none;
+    cursor:pointer;
+    font-size:16px;
+    margin:15px;
+}
+
+.yes-btn{
+    background:red;
+    color:white;
+}
+
+.no-btn{
+    background:red;
+    color:white;
+    position:absolute;
+}
+
+input[type=range]{
+    width:80%;
+}
+
+.animated-name{
+    font-size:48px;
+    animation:glow 1.5s infinite alternate;
+}
+
+@keyframes glow{
+    from{ text-shadow:0 0 10px red;}
+    to{ text-shadow:0 0 40px #ff00ff;}
+}
+
+.heart{
+    position:fixed;
+    color:red;
+    font-size:20px;
+    animation:float 6s linear infinite;
+}
+
+@keyframes float{
+    from{transform:translateY(100vh);opacity:1;}
+    to{transform:translateY(-10vh);opacity:0;}
+}
+</style>
+</head>
+
+<body>
+
+<!-- INTRO -->
+<div class="section active" id="intro">
+<h1>Hello Ma'am.</h1>
+<h2>This is J.A.R.V.I.S. at your service</h2>
+<p>Personal AI Assistant of Mr. Ameer Khan.</p>
+<p>Initializing Emotional Analysis Sequence Protocol...</p>
+<h3>How well do you know Mr. Khan?</h3>
+<button onclick="go('q1')">Let's Analyze?</button>
+</div>
+
+<!-- Q1 -->
+<div class="section" id="q1">
+<h2>Do you love Mr. Ameer Khan?</h2>
+<button class="yes-btn" onclick="go('q2')">Yes</button>
+<button class="no-btn" id="noBtn">No</button>
+</div>
+
+<!-- Q2 -->
+<div class="section" id="q2">
+<h2 style="color:#ff4d6d;">How much do you love him?</h2>
+
+<input type="range"
+       min="0"
+       max="100"
+       value="0"
+       id="range"
+       oninput="update(this.value)"
+       style="accent-color:#ff4d94; cursor:pointer;">
+
+<p style="color:#ff4d6d;">
+<span id="val">0</span>%
+</p>
+
+<button onclick="celebrate()"
+        style="background:#ff4d94;color:rgb(10, 10, 10);border:none;padding:10px 20px;border-radius:20px;cursor:pointer;">
+Continue
+</button>
+
+</div>
+
+<!-- CONFETTI -->
+<div class="section" id="celebrate">
+<h1>Congratulations ❤️</h1>
+<h2>You are officially in love with Mr.Ameerkhan</h2>
+<button onclick="go('askHer')">Continue</button>
+</div>
+
+<!-- ASK -->
+<div class="section" id="askHer">
+<h2>Do you want to know how much Mr. Khan loves you?</h2>
+<button onclick="go('final')">Continue</button>
+</div>
+
+<!-- FINAL PAGE -->
+<div class="section" id="final">
+
+<h1 class="animated-name"> N I G I N A </h1>
+
+<h2 style="margin-top:10px;">You Have a Mail 📩</h2>
+
+<!-- Mail Inbox -->
+<div id="inbox" style="
+    max-width:600px;
+    margin:30px auto;
+    background:#111;
+    border-radius:10px;
+    padding:15px;
+    border:1px solid #222;
+    text-align:left;
+">
+
+<div onclick="openMail()" style="
+    padding:15px;
+    border-bottom:1px solid #222;
+    cursor:pointer;
+    transition:0.3s;
+"
+onmouseover="this.style.background='#1a1a1a'"
+onmouseout="this.style.background='transparent'">
+
+<strong>A Love Letter to Nigina</strong><br>
+<span style="color:gray;">From: Ameerkhan</span>
+
+</div>
+
+</div>
+
+<!-- Opened Mail View -->
+<div id="mailContent" style="display:none; margin-top:40px;">
+
+<p style="max-width:700px;margin:auto;line-height:1.8;text-align:center;">
+From the moment you entered Mr. Khan's life,<br><br>
+his world recalibrated.<br><br>
+
+His thoughts orbit around you.<br>
+His heart responds only to your frequency.<br><br>
+
+System analysis complete:<br><br>
+
+He loves you infinitely ♾️<br><br><br>
+
+His thoughts orbit around you.<br><br>
+His heart responds only to your frequency.<br><br>
+</p>
+
+<h3 id="countdown" style="margin-top:30px;text-align:center;"></h3>
+
+<p style="margin-top:30px;font-size:18px;text-align:center;">
+Please click on the heart below
+</p>
+
+<div style="text-align:center;">
+<button onclick="showValentine()" 
+style="font-size:32px;background:none;border:none;color:#ff4d6d;cursor:pointer;">
+❤️
+</button>
+</div>
+
+</div>
+
+<!-- Valentine Question -->
+<div id="valentineQuestion" style="display:none;margin-top:20px;">
+<h2>Will you be My Valentine?</h2>
+
+<button onclick="showLove()" 
+style="padding:10px 20px;border-radius:20px;border:none;background:red;color:white;">
+Yes
+</button>
+
+<button id="noBtnFinal" 
+style="padding:10px 20px;border-radius:20px;border:none;background:red;color:white;position:absolute;">
+No
+</button>
+</div>
+
+<!-- Final Love Reveal -->
+<div id="finalLove" style="
+display:none;
+position:fixed;
+top:0;
+left:0;
+width:100%;
+height:100%;
+background:white;
+color:#ff4d6d;
+z-index:9999;
+justify-content:center;
+align-items:center;
+flex-direction:column;
+font-family:'Orbitron',sans-serif;
+text-align:center;
+">
+
+<h1 style="font-size:60px;margin-bottom:20px;">
+Happy Valentine's Day, My Love
+</h1>
+
+<h2 style="font-size:40px;">
+I LOVE YOU ❤️
+</h2>
+
+<style>
+    .heart {
+    position: fixed;
+    bottom: -5vh; /* Start just below the screen */
+    color: red;
+    font-size: 20px;
+    z-index: 10000; /* Higher than finalLove (9999) */
+    pointer-events: none;
+    animation: float linear forwards;
+}
+
+@keyframes float {
+    0% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+    70% {
+        opacity: 0;
+    }
+    100% {
+        transform: translateY(-120vh); /* Reach way past the top */
+        opacity: 0;
+    }
+}
+</style>
+
+<!-- Background music -->
+<audio id="bgMusic" loop>
+    <source src=https://image2url.com/r2/default/audio/1770961537537-0d1f2ca6-7446-422d-93a9-80d7915cf7b9.mp3 type="audio/mpeg">
+    Your browser does not support the audio element.
+</audio>
+
+</div>
+<script>
+
+// =============================
+// SECTION NAVIGATION
+// =============================
+function go(id){
+    document.querySelectorAll(".section").forEach(s=>s.classList.remove("active"));
+    document.getElementById(id).classList.add("active");
+}
+
+// =============================
+// FIRST QUESTION - NO BUTTON RUNS
+// =============================
+const noBtn = document.getElementById("noBtn");
+if(noBtn){
+    noBtn.addEventListener("mouseover",function(){
+        this.style.top=Math.random()*80+"%";
+        this.style.left=Math.random()*80+"%";
+    });
+}
+
+// =============================
+// SLIDER UPDATE
+// =============================
+function update(v){
+    document.getElementById("val").innerText=v;
+}
+
+// =============================
+// CONFETTI CELEBRATION
+// =============================
+function celebrate(){
+    go('celebrate');
+    confetti({particleCount:200,spread:120});
+}
+
+// =============================
+// FLOATING HEARTS BACKGROUND
+// =============================
+function heart() {
+    const h = document.createElement("div");
+    h.classList.add("heart");
+    h.innerHTML = "❤";
+    h.style.left = Math.random() * 100 + "vw";
+    h.style.fontSize = (Math.random() * 20 + 15) + "px";
+
+    // Duration between 5s and 8s
+    const duration = Math.random() * 3 + 5; 
+    h.style.animationDuration = duration + "s";
+
+    document.body.appendChild(h);
+
+    // Ensure the timeout is LONGER than the longest possible animation
+    setTimeout(() => {
+        h.remove();
+    }, 8500); 
+}
+setInterval(heart,50);
+
+// =============================
+// COUNTDOWN TIMER
+// =============================
+const startDate=new Date("2025-03-11"); 
+
+setInterval(()=>{
+    const now=new Date();
+    const diff=now-startDate;
+    const days=Math.floor(diff/(1000*60*60*24));
+    const countdown=document.getElementById("countdown");
+    if(countdown){
+        countdown.innerText=
+        "You have been in his heart for "+days+" days.";
+    }
+},1000);
+
+function openMail(){
+    document.getElementById("mailContent").style.display="block";
+    document.getElementById("inbox").style.display="none";
+}
+
+// =============================
+// FINAL VALENTINE HEART CLICK
+// =============================
+function showValentine(){
+    document.getElementById("valentineQuestion").style.display="block";
+}
+
+// =============================
+// FINAL YES CLICK → LOVE REVEAL
+// =============================
+function showLove(){
+    document.getElementById("finalLove").style.display="block";
+    confetti({particleCount:300,spread:150});
+}
+
+// =============================
+// FINAL LOVE REVEAL
+// =============================
+function showLove() {
+    const love = document.getElementById("finalLove");
+    love.style.display = "flex";
+
+    // 1. Massive Heart Confetti Blast
+    const defaults = { spread: 200, ticks: 100, gravity: 1, decay: 0.94, startVelocity: 30, shapes: ['heart'] };
+    
+    // Using the confetti library's heart shape
+    confetti({
+        ...defaults,
+        particleCount: 400,
+        scalar: 2, // Makes the hearts big and visible
+        origin: { y: 0.6 }
+    });
+
+    // 2. Extra "Floating Hearts" Explosion (using your existing heart function)
+    for(let i = 0; i < 50; i++) {
+        setTimeout(heart, i * 50);
+    }
+
+    // 3. Play Background Music
+    const music = document.getElementById("bgMusic");
+    if (music) {
+        music.volume = 0.5; // Set volume to 50%
+        music.play().catch(error => {
+            console.log("Audio play failed. Browser might need interaction first:", error);
+        });
+    }
+}
+
+
+</script>
+
+</body>
+</html>
